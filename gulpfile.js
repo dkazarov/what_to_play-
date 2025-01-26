@@ -7,6 +7,7 @@ const js = require('./tasks/js');
 const images = require('./tasks/images');
 const fonts = require('./tasks/fonts');
 const startServer = require('./tasks/server');
+const copyJson = require('./tasks/copyJson');
 
 const watcher = () => {
 	watch('src/html-components/**.html', html);
@@ -25,8 +26,19 @@ exports.images = images;
 exports.fonts = fonts;
 exports.js = js;
 exports.startServer = startServer;
+exports.copyJson = copyJson;
 exports.watcher = watcher;
 
 exports.build = series(clear, fonts, html, style, images, js);
 
-exports.default = series(clear, fonts, html, style, images, js, startServer, parallel(watcher));
+exports.default = series(
+	clear,
+	fonts,
+	html,
+	style,
+	images,
+	js,
+	startServer,
+	copyJson,
+	parallel(watcher),
+);
